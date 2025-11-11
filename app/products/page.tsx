@@ -95,10 +95,12 @@ export default function ProductPage() {
       <h1 className="text-3xl font-bold mb-6 text-gray-900">Products</h1>
 
       {/* Category Buttons */}
-      <div className="mb-6 flex gap-3 flex-wrap">
+      <div className="mb-6 flex flex-wrap gap-3">
         <button
           onClick={() => setFilteredCategory(null)}
-          className={`px-3 py-1 rounded ${!filteredCategory ? "bg-blue-600 text-white" : "bg-gray-300"}`}
+          className={`px-4 py-2 rounded-full font-medium transition-colors duration-200 ${
+            !filteredCategory ? "bg-blue-600 text-white shadow-lg" : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          }`}
         >
           All
         </button>
@@ -106,7 +108,11 @@ export default function ProductPage() {
           <button
             key={c.id}
             onClick={() => toggleCategoryFilter(c.name)}
-            className={`px-3 py-1 rounded ${filteredCategory === c.name ? "bg-blue-600 text-white" : "bg-gray-300"}`}
+            className={`px-4 py-2 rounded-full font-medium transition-colors duration-200 ${
+              filteredCategory === c.name
+                ? "bg-blue-600 text-white shadow-lg"
+                : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+            }`}
           >
             {c.name}
           </button>
@@ -117,33 +123,16 @@ export default function ProductPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
         {filteredProducts.map((p) => (
           <div key={p.id} className="bg-white rounded shadow p-3">
-            {p.imageUrl && (
-              <img
-                src={`https://localhost:7017${p.imageUrl}`}
-                alt={p.name}
-                className="w-full h-40 object-cover mb-2"
-              />
-            )}
+            {p.imageUrl && <img src={`https://localhost:7017${p.imageUrl}`} alt={p.name} className="w-full h-40 object-cover mb-2" />}
             <h2 className="font-bold text-gray-900">{p.name}</h2>
             <p className="text-gray-700">{p.description}</p>
             <p className="font-semibold text-gray-900">${p.price}</p>
-            <p className="text-sm text-black">
-              {/* Show only filtered category if selected, else show all */}
-              {filteredCategory
-                ? p.categoryNames?.filter((c) => c === filteredCategory).join(", ")
-                : p.categoryNames?.join(", ")}
-            </p>
+            <p className="text-sm text-black">{p.categoryNames?.join(", ")}</p>
             <div className="mt-2 flex gap-2">
-              <button
-                onClick={() => handleEdit(p)}
-                className="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500"
-              >
+              <button onClick={() => handleEdit(p)} className="bg-yellow-400 px-3 py-1 rounded hover:bg-yellow-500">
                 Edit
               </button>
-              <button
-                onClick={() => handleDelete(p.id!)}
-                className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-              >
+              <button onClick={() => handleDelete(p.id!)} className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
                 Delete
               </button>
             </div>
@@ -178,9 +167,9 @@ export default function ProductPage() {
           />
 
           {/* Multi-category selection */}
-          <div className="flex flex-wrap gap-3">
+          <div>
             {categories.map((c) => (
-              <label key={c.id} className="inline-flex items-center text-black">
+              <label key={c.id} className="inline-flex items-center mr-3">
                 <input
                   type="checkbox"
                   value={c.id}
@@ -196,7 +185,7 @@ export default function ProductPage() {
                   }}
                   className="mr-1"
                 />
-                {c.name}
+                <span className="text-black">{c.name}</span>
               </label>
             ))}
           </div>
@@ -207,10 +196,7 @@ export default function ProductPage() {
             className="w-full p-2 border rounded text-black"
             onChange={(e) => setForm({ ...form, image: e.target.files![0] })}
           />
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-          >
+          <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
             {editId ? "Update Product" : "Add Product"}
           </button>
         </form>
