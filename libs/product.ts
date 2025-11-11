@@ -3,7 +3,7 @@ export interface Product {
   name: string;
   description?: string;
   price: number;
-  categoryId: number;
-  categoryName?: string;
   imageUrl?: string;
+  categoryIds: number[];       // for filtering
+  categoryNames?: string[];
 }

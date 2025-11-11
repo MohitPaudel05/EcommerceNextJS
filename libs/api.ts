@@ -8,7 +8,10 @@ const CATEGORY_API_URL = "https://localhost:7017/api/categories";
 // Products
 export const getProducts = async (): Promise<Product[]> => {
   const res = await axios.get(PRODUCT_API_URL);
-  return res.data;
+  return res.data.map((p: any) => ({
+    ...p,
+    categoryIds: p.categoryIds ?? [],
+  }));
 };
 
 export const createProduct = async (formData: FormData): Promise<Product> => {
